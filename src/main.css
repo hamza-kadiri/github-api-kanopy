@@ -1,0 +1,89 @@
+.full-commit {
+    display: block;
+    background: #eaf5ff !important;
+    border: 1px solid rgba(27, 31, 35, .15);
+    border-radius: 3px;
+    font-size: 14px;
+    padding: 8px 8px 0;
+    margin-bottom: 0px !important;
+}
+
+.commit-message {
+    background: inherit;
+    padding: 0;
+}
+
+.author-info {
+    padding: 0.5rem !important;
+}
+
+.green {
+    color: green;
+}
+
+.red {
+    color: red
+}
+
+.code-hunk {
+    background-color: #f1f8ff;
+    border-width: 1px 0;
+    padding-bottom: 4px;
+    padding-top: 4px;
+    color: rgba(27, 31, 35, .5);
+    vertical-align: middle;
+}
+
+.code-deletion {
+    background-color: #ffeef0;
+    float: left;
+    width: 100%
+}
+
+.code-addition {
+    background-color: #cdffd8;
+    float: left;
+    width: 100%
+}
+
+.inner-code {
+    color: #24292e;
+    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;
+    font-size: 12px;
+    white-space: pre;
+    word-wrap: normal;
+    overflow-y: scroll !important;
+}
+
+.code {
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    margin-bottom: 16px;
+    margin-top: 16px;
+    position: relative;
+
+}
+
+.file-header {
+    background-color: #fafbfc !important;
+    border-bottom: 1px solid #e1e4e8;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.file-header>p {
+    color: black;
+    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;
+    margin-top: 10px;
+    margin-bottom: 10px
+}
+
+.arrow-icon {
+    color: black;
+}
+
+.arrow-icon :hover {
+    color: rgb(66, 65, 65);
+}

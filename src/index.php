@@ -4,6 +4,7 @@ $context = stream_context_create($opts);
 $url = 'https://api.github.com/repos/torvalds/linux/commits';
 $data = file_get_contents($url, false, $context);
 $json = json_decode($data, true); 
+$timeAgo = require 'timeAgo.php';
 
 $format_commits = function ($commit)
 {
@@ -17,6 +18,7 @@ $format_commits = function ($commit)
     "image" => $commit["committer"]["avatar_url"]
   );
 };
+
 
 $commits = array_map($format_commits, $json);
 
@@ -46,7 +48,7 @@ $commits = array_map($format_commits, $json);
   <section class="section">
     <div class="container commits">
         <?php foreach ($commits as $commit) { ?>
-            <article class="media">
+            <article class=" box media">
                 <figure class="media-left">
                     <p class="image is-96x96">
                         <a href=<?php echo $commit['committer_url']; ?>>
@@ -58,7 +60,7 @@ $commits = array_map($format_commits, $json);
                     <div class="content">
                         <p> <strong> <?php echo $commit["committer_name"]; ?></strong> 
                             <small>@<?php echo $commit["login"]; ?></small>
-                            <small> committed at <?php echo date_format(date_create($commit["date"]) , "Y-m-d H:i:s"); ?> </small>
+                            <small> committed <?php echo $timeAgo($commit["date"]); ?> </small>
                             <br/>
                             <?php if (strlen($commit["message"]) <= 300) {
                                     echo $commit["message"]; 
@@ -70,7 +72,9 @@ $commits = array_map($format_commits, $json);
                     </div>
                 </div>
                 <div class="media-right">
+                    <a href=<?php echo "commit.php?id=" . $commit["sha"]; ?>>
                     <span><?php echo substr($commit["sha"], 0, 12); ?></span>
+                    </a>
                 </div>
             </article>
       <?php } ?>
