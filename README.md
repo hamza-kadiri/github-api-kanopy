@@ -8,7 +8,7 @@ Simply run `docker-compose up` inside the repository and the website will be ava
 
 ## My approach
 
-Since the goal of the exercise was to focus on PHP, I decided to use PHP only. Also, I did't see the point of splitting the website into a front-end and a back-end in this case, because the back-end would have contained routes only made of Github's API.  
+Since the goal of the exercise was to focus on PHP, I decided to use PHP only. Also, I didn't see the point of splitting the website into a front-end and a back-end in this case, because the back-end routes would have been the same as Github's API.  
 I have also chosen to work without any database, as I think it would have complexified the website without providing a real benefit.
 
 I began by gathering the commits associated to Linux repository, then I chose to keep the useful informations in each commit and get rid of the rest via the `$format_commits` function. Then I created my commit tiles based on the Bulma CSS Framework.
@@ -52,8 +52,8 @@ Currently some parameters of the GET Requests are too long, it makes the link ve
 
 This project was my first experience with PHP and jQuery, I spent a couple of hours in documentation.
 
-Except that, I spent a total of 6-7 hours in the project. I got used pretty fast to the PHP syntax and the Bulma CSS Framework made the front easy to code.  
- The detail of this time comes are as follows :
+Except that, I spent a total of 6-7 hours in the project. I got used pretty fast to the PHP syntax and the Bulma CSS Framework made the front fast to code.  
+ The detail is as follows :
 
 - Initialization of the project and 1st view : 1 hour
 - Commit view with patches colors (took me a lot of time): 2-3 hours
