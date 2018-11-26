@@ -2,17 +2,22 @@
 if (isset($_GET['id'])) {
   $id = $_GET['id'];
 }
-// isset( $_GET[ 'id' ] )
 else {
   echo 'Error: commit ID is missing';
 }
+
+if (isset($_GET['repo_url'])) {
+    $repo_url = $_GET['repo_url'];
+  }
+  else {
+    echo 'Error: repo_url is missing';
+  }
 $opts = ["http" => ["method" => "GET", "header" => "User-Agent: hamza-kadiri"]];
 $context = stream_context_create($opts);
-$url = 'https://api.github.com/repos/torvalds/linux/commits/' . $id;
+$url = $repo_url . "/" . $id;
 $data = file_get_contents($url, false, $context);
 $commit = json_decode($data, true);
 $message = preg_replace("/\\n/", "<br />", $commit['commit']["message"]);
-$timeAgo = require 'timeAgo.php';
 
 $map_for_files = function ($file) {   
     $patch = preg_replace('/@@(.*)/', '<div class="code-hunk">$0</div>', $file['patch']);
@@ -35,10 +40,14 @@ $stats = $commit['stats']
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Commit <?php echo $id ?></title>
-  <link rel="stylesheet" type="text/css" href="main.css">
+  <link rel="stylesheet" type="text/css" href="/main.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
-  <link rel ="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-accordion@2.0.0/dist/css/bulma-accordion.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-accordion@2.0.0/dist/css/bulma-accordion.min.css">
   <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -70,7 +79,7 @@ $stats = $commit['stats']
                     </div>
                 </div>
                 <div class="media-right">
-                    <a href=<?php echo "commit.php?id=" . $commit["sha"]; ?>>
+                    <a href=<?php echo "/commit.php?id=" . $commit["sha"]; ?>>
                     <span><?php echo substr($commit["sha"], 0, 12); ?></span>
                     </a>
                 </div>
