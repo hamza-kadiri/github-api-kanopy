@@ -1,14 +1,21 @@
 <?php
+
 $opts = ["http" => ["method" => "GET", "header" => "User-Agent: hamza-kadiri"]];
 $context = stream_context_create($opts);
+// By default, fetch commits from linux repository \\ 
 $url = 'https://api.github.com/repos/torvalds/linux/commits';
+
+// if an url is set, change the url \\ 
+
 if(isset($_GET["url"])){
     $url = $_GET["url"];
 }
+// fetch data  \\
 $data = file_get_contents($url, false, $context);
 
 $json = json_decode($data, true); 
 
+// function to keep only useful fields in the commit array \\
 $format_commits = function ($commit)
 {
   return array(
@@ -18,20 +25,23 @@ $format_commits = function ($commit)
     "date" => $commit["commit"]["committer"]["date"],
     "message" => $commit["commit"]["message"],
     "login" => $commit["committer"]["login"],
-    "image" => $commit["committer"]["avatar_url"]
+    "image" => ($commit["committer"]["avatar_url"]) ? $commit["committer"]["avatar_url"] : "https://clip2art.com/images/unknown-clipart-avatar-9.jpg"
   );
 };
 
+// function to keep only useful fields in the committers array \\
 
 $format_committer = function ($commit)
 {
   return $commit["commit"]["committer"]["name"];
 };
 
+// get commits array with only useful fields \\
 $commits = array_map($format_commits, $json);
+// get committers names array and get rid of duplicates  \\
 $committers = array_unique(array_map($format_committer, $json));
 
-
+// import a function which transforms a date to xxxx minutes/hours/days ago"
 $timeAgo = require 'timeAgo.php';
 
 
@@ -89,6 +99,7 @@ $timeAgo = require 'timeAgo.php';
   </section>
   <section class="section">
     <div class="container commits">
+    <div class="loader">Loading...</div>    
     </div>
   </section>
 </body>
@@ -99,18 +110,17 @@ var commits = <?php echo json_encode($commits);?>;
 var repo_url = <?php echo json_encode($url) ?>;
 
 $(document).ready(function(){
-    console.log('ready')
+    // initially get all commits without any filter \\
     filter_data()
 
     function filter_data() {
-        $('.commits').html('<div> Loading...</div>');
+        $('.commits').html('<div class="loader">Loading...</div>');
         var action = 'filter_data';
-        var committer=$("#committers-dropdown")[0].value
-        console.log(committer)
+        var committer=$("#committers-dropdown")[0].value //selected value in the dropdown
         $.ajax({
             url:"/filteredData.php",
             method:"POST",
-            data:{action:action,committer:committer, commits:commits ,repo_url:repo_url},
+            data:{action:action,committer:committer, commits:commits, repo_url:repo_url},
             success:function(data){
                 $('.commits').html(data);
             }
@@ -119,10 +129,11 @@ $(document).ready(function(){
 
 
     $("#committers-dropdown").change(function(){
-        filter_data();
+        filter_data(); // if the dropdown values changes, filter the commits \\
     });
 })
 
+ /// opens the search panel and displays the search result \\ 
 function quickview(e) {
        var searchBar=$(".search-bar")
        $(".quickview-block").html('<div class="loader">Loading...</div>');
@@ -141,7 +152,7 @@ function quickview(e) {
 
     bulmaQuickview.attach();
 </script>
-
+<!-- This div is initially empty, when the user makes a research, it displays searchRepo.php  -->
 <div id="quickviewDefault" class="quickview">
   <header class="quickview-header">
     <p class="title"><strong>Choose your repository </strong></p>
